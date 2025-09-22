@@ -92,38 +92,6 @@
     },
     {
         "scheme_id": "AG005",
-        "name": "Pradhan Mantri Kisan Maandhan Yojana (PM-KMY)",
-        "category": "Farmer",
-        "eligibility": {
-            "occupation": [
-                "farmer"
-            ],
-            "land_owned_hectares": {
-                "max": 2
-            },
-            "age": {
-                "min": 18,
-                "max": 40
-            },
-            "citizenship": "Indian",
-            "exclusions": [
-                "income_tax_payer",
-                "government_employee",
-                "already_member_of_NPS_ESIC_EPFO"
-            ]
-        },
-        "benefits": "Assured pension of ₹3,000 per month after the age of 60. Spouse eligible for 50% family pension after subscriber’s death.",
-        "contribution": {
-            "shared": "Equal monthly contribution by farmer and Government",
-            "example": "Entry age 18 → ₹55/month; Entry age 40 → ₹200/month"
-        },
-        "implementation": {
-            "mode": "Direct Benefit Transfer",
-            "nodal_agency": "Ministry of Agriculture & Farmers Welfare, Government of India"
-        }
-    },
-    {
-        "scheme_id": "AG006",
         "name": "Pradhan Mantri Krishi Sinchai Yojana (PMKSY)",
         "category": "Farmer",
         "eligibility": {
@@ -160,7 +128,7 @@
         }
     },
     {
-        "scheme_id": "AG007",
+        "scheme_id": "AG006",
         "name": "Soil Health Card Scheme",
         "category": "Farmer",
         "eligibility": {
@@ -182,7 +150,7 @@
         "benefits": "Free soil testing and issuance of Soil Health Cards every 3 years to farmers, providing recommendations on nutrient management and fertilizer use to improve soil health and crop productivity."
     },
     {
-        "scheme_id": "AG008",
+        "scheme_id": "AG007",
         "name": "Kisan Credit Card (KCC)",
         "category": "Farmer",
         "eligibility": {
@@ -222,7 +190,7 @@
         }
     },
     {
-        "scheme_id": "AG009",
+        "scheme_id": "AG008",
         "name": "Paramparagat Krishi Vikas Yojana (PKVY)",
         "category": "Farmer",
         "eligibility": {
@@ -256,7 +224,7 @@
         }
     },
     {
-        "scheme_id": "AG010",
+        "scheme_id": "AG009",
         "name": "National Food Security Mission (NFSM)",
         "category": "Farmer",
         "eligibility": {
@@ -298,7 +266,7 @@
         }
     },
     {
-        "scheme_id": "AG011",
+        "scheme_id": "AG010",
         "name": "Rythu Bandhu Scheme",
         "category": "Farmer",
         "eligibility": {
@@ -327,7 +295,7 @@
         }
     },
     {
-        "scheme_id": "AG012",
+        "scheme_id": "AG011",
         "name": "Bhavantar Bhugtan Yojana",
         "category": "Farmer",
         "eligibility": {
@@ -477,5 +445,272 @@
             "nodal_agency": "State BOCW Welfare Boards",
             "funding": "Central and State contributions"
         }
+    },
+    [
+    {
+        "scheme_id": "CW005",
+        "name": "Pradhan Mantri Awas Yojana - Labour Category",
+        "category": "Construction Worker",
+        "eligibility": {
+            "occupation": [
+                "construction_worker"
+            ],
+            "age": {
+                "min": 18,
+                "max": 70
+            },
+            "citizenship": "Indian",
+            "registered_with_board": true,
+            "household_annual_income": {
+                "max": 600000
+            },
+            "house_ownership": "does_not_own_pucca_house"
+        },
+        "benefits": "Financial assistance of ₹1.20 lakh (plain areas) to ₹1.30 lakh (hilly states) for construction of pucca house. Additional subsidy for toilet construction under Swachh Bharat Mission.",
+        "objectives": [
+            "Provide affordable housing to construction workers",
+            "Improve living standards and dignity",
+            "Promote homeownership among unorganized workers"
+        ],
+        "implementation": {
+            "mode": "Direct Benefit Transfer after construction milestones",
+            "nodal_agency": "Ministry of Housing & Urban Affairs, State BOCW Boards",
+            "verification": "Technical and financial inspection at different stages"
+        }
+    },
+    {
+        "scheme_id": "CW006",
+        "name": "Emergency Assistance Scheme for Construction Workers",
+        "category": "Construction Worker",
+        "eligibility": {
+            "occupation": [
+                "construction_worker"
+            ],
+            "age": {
+                "min": 18
+            },
+            "citizenship": "Indian",
+            "registered_with_board": true,
+            "emergency_situations": [
+                "natural_disasters",
+                "accident",
+                "serious_illness",
+                "death_in_family"
+            ]
+        },
+        "benefits": "Immediate financial assistance ranging from ₹5,000 to ₹50,000 depending on the nature of emergency. Additional support for medical treatment, funeral expenses, or disaster rehabilitation.",
+        "objectives": [
+            "Provide immediate relief during emergencies",
+            "Prevent workers from falling into debt traps",
+            "Ensure social security during crisis situations"
+        ],
+        "implementation": {
+            "mode": "Fast-track processing within 15 days of application",
+            "nodal_agency": "State BOCW Welfare Boards",
+            "documentation": "Minimal documentation for urgent cases"
+        }
+    },
+    {
+        "scheme_id": "CW007",
+        "name": "Skill Development & Training Scheme for Construction Workers",
+        "category": "Construction Worker",
+        "eligibility": {
+            "occupation": [
+                "construction_worker"
+            ],
+            "age": {
+                "min": 18,
+                "max": 45
+            },
+            "citizenship": "Indian",
+            "registered_with_board": true,
+            "education_level": "minimum_literacy_preferred",
+            "willingness_to_learn": true
+        },
+        "benefits": "Free skill development training in construction trades (plumbing, electrical, masonry, carpentry), certification upon completion, job placement assistance, and tool kit support worth ₹5,000-15,000.",
+        "training_duration": {
+            "basic_skills": "3-6 months",
+            "advanced_skills": "6-12 months"
+        },
+        "objectives": [
+            "Upgrade technical skills of construction workers",
+            "Increase employability and income potential",
+            "Promote safety practices in construction",
+            "Bridge skill gaps in construction industry"
+        ],
+        "implementation": {
+            "mode": "Partnership with ITIs, skill development centers, and private training providers",
+            "nodal_agency": "Ministry of Skill Development & Entrepreneurship, State BOCW Boards",
+            "certification": "National Skill Qualification Framework (NSQF) aligned certificates"
+        }
+    },
+    {
+        "scheme_id": "CW008",
+        "name": "Maternity Benefits for Women Construction Workers",
+        "category": "Construction Worker",
+        "eligibility": {
+            "occupation": [
+                "construction_worker"
+            ],
+            "gender": "female",
+            "age": {
+                "min": 18,
+                "max": 45
+            },
+            "citizenship": "Indian",
+            "registered_with_board": true,
+            "pregnancy_status": "pregnant_or_lactating",
+            "worked_days_last_year": {
+                "min": 90
+            }
+        },
+        "benefits": "Maternity benefit of ₹12,000-25,000 (varies by state) paid in installments during pregnancy and post-delivery. Additional medical assistance, nutritional support, and crèche facilities where available.",
+        "payment_schedule": {
+            "first_installment": "During pregnancy (after medical verification)",
+            "second_installment": "After delivery and child immunization",
+            "third_installment": "After 6 months (conditional on child health checkups)"
+        },
+        "objectives": [
+            "Support women workers during maternity",
+            "Ensure proper nutrition for mother and child",
+            "Reduce infant and maternal mortality",
+            "Promote child immunization and healthcare"
+        ],
+        "implementation": {
+            "mode": "Direct Benefit Transfer linked with ASHA/ANM verification",
+            "nodal_agency": "State BOCW Welfare Boards in coordination with Health Department",
+            "additional_support": "Links with Janani Suraksha Yojana and other maternity schemes"
+        }
+    },
+    {
+        "scheme_id": "CW009",
+        "name": "Education Scholarship Scheme for Children of Construction Workers",
+        "category": "Construction Worker",
+        "eligibility": {
+            "occupation": [
+                "construction_worker"
+            ],
+            "age": {
+                "min": 18
+            },
+            "citizenship": "Indian",
+            "registered_with_board": true,
+            "child_education_level": [
+                "primary",
+                "secondary",
+                "higher_secondary",
+                "graduation",
+                "technical_courses"
+            ],
+            "child_age": {
+                "max": 25
+            }
+        },
+        "benefits": "Educational scholarships ranging from ₹1,000 (primary) to ₹20,000 (technical/professional courses) per year. Additional support for books, uniforms, and examination fees.",
+        "scholarship_amounts": {
+            "primary_school": "₹1,000-2,000 per year",
+            "secondary_school": "₹3,000-5,000 per year",
+            "higher_secondary": "₹5,000-8,000 per year",
+            "graduation": "₹10,000-15,000 per year",
+            "technical_professional": "₹15,000-25,000 per year"
+        },
+        "objectives": [
+            "Promote education among construction workers' children",
+            "Break the cycle of intergenerational poverty",
+            "Encourage higher education and skill development",
+            "Reduce child labor in construction sector"
+        ],
+        "implementation": {
+            "mode": "Annual scholarship based on academic performance",
+            "nodal_agency": "State BOCW Welfare Boards",
+            "renewal_criteria": "Minimum 60% marks for scholarship renewal"
+        }
+    },
+    {
+        "scheme_id": "CW010",
+        "name": "Group Accident Insurance Scheme for Construction Workers",
+        "category": "Construction Worker",
+        "eligibility": {
+            "occupation": [
+                "construction_worker"
+            ],
+            "age": {
+                "min": 18,
+                "max": 65
+            },
+            "citizenship": "Indian",
+            "registered_with_board": true,
+            "premium_payment": "annual_contribution_paid"
+        },
+        "benefits": "Comprehensive accident insurance coverage: ₹2 lakh for accidental death, ₹1 lakh for permanent disability, ₹50,000 for partial disability, and medical expenses up to ₹25,000 for accident-related treatment.",
+        "coverage_details": {
+            "accidental_death": "₹2,00,000",
+            "permanent_total_disability": "₹1,00,000",
+            "permanent_partial_disability": "₹50,000",
+            "medical_expenses": "₹25,000",
+            "hospitalization": "Daily allowance during treatment"
+        },
+        "premium": {
+            "worker_contribution": "₹100-200 per year",
+            "government_subsidy": "Remaining premium amount"
+        },
+        "objectives": [
+            "Provide financial security against workplace accidents",
+            "Reduce financial burden on families during emergencies",
+            "Encourage safety practices at construction sites",
+            "Ensure quick claim settlement for accident victims"
+        ],
+        "implementation": {
+            "mode": "Group insurance policy with nominated insurance companies",
+            "nodal_agency": "State BOCW Welfare Boards",
+            "claim_process": "Simple documentation with fast-track settlement"
+        }
+    },
+    {
+        "scheme_id": "CW011",
+        "name": "Tool Kit and Equipment Subsidy Scheme",
+        "category": "Construction Worker",
+        "eligibility": {
+            "occupation": [
+                "construction_worker"
+            ],
+            "age": {
+                "min": 18,
+                "max": 55
+            },
+            "citizenship": "Indian",
+            "registered_with_board": true,
+            "work_experience": {
+                "min_years": 2
+            },
+            "skill_category": [
+                "mason",
+                "carpenter",
+                "plumber",
+                "electrician",
+                "painter",
+                "steel_fixer"
+            ]
+        },
+        "benefits": "One-time subsidy of ₹8,000-15,000 for purchasing professional tools and equipment. Includes basic tool kit for specific trades, safety equipment, and maintenance support.",
+        "tool_kit_components": {
+            "mason": "Trowels, levels, measuring tape, floats, safety gear",
+            "carpenter": "Saws, chisels, planes, drilling machine, measuring tools",
+            "plumber": "Pipe cutters, wrenches, soldering equipment, testing tools",
+            "electrician": "Multimeter, wire strippers, screwdrivers, safety equipment",
+            "painter": "Brushes, rollers, spray gun, mixing equipment"
+        },
+        "objectives": [
+            "Improve work efficiency and income potential",
+            "Promote ownership of quality tools",
+            "Enhance safety at construction sites",
+            "Support skilled workers in establishing independent practice"
+        ],
+        "implementation": {
+            "mode": "Direct procurement or reimbursement after purchase verification",
+            "nodal_agency": "State BOCW Welfare Boards",
+            "eligibility_cycle": "Once every 5 years per beneficiary"
+        }
     }
+]
 ]
