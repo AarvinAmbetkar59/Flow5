@@ -1,41 +1,47 @@
 import json
+import openai
+import sys
 
-# Load schemes JSON
+openai.api_key = "YOUR_OPENAI_API_KEY_HERE"
+
 with open("schemefinderdataset.json", "r", encoding="utf-8") as f:
     schemes = json.load(f)
 
-# --- Matching function ---
 def match_scheme(user, scheme):
     score = 0
     elig = scheme.get("eligibility", {})
-    mandatory_score = 0
+    # Mandatory scoring fields
 
-    # Category match
+
+
+    # If User input occupation matches any in eligibility, give 3 points
     if user.get("category") == scheme.get("category", "").lower():
-        mandatory_score += 3
+        score += 3
 
-    # Occupation match
+
+
+   
+    # If User input occupation matches any in eligibility, give 2 points
     elig_occupations = [o.lower() for o in elig.get("occupation", [])]
     if user.get("occupation") in elig_occupations:
-        mandatory_score += 2
+        score += 2
 
-    # Age check
+
+
+
+    # Age check,provides schemes only if in range
     if "age" in elig:
         min_age = elig["age"].get("min", 0)
         max_age = elig["age"].get("max", 1000)
         if not (min_age <= user["age"] <= max_age):
             return 0
-
-    # State check
+    
     if "resident_state" in elig:
-        if user["state"] != elig["resident_state"].lower():
+        if user["state"].strip().lower() != elig["resident_state"].strip().lower():
             return 0
     else:
-        mandatory_score += 1
+        score += 1
 
-    score += mandatory_score
-
-    # Optional scoring fields
     if "land_owned_hectares" in elig and user.get("land_owned_hectares") is not None:
         min_land = elig["land_owned_hectares"].get("min", 0)
         max_land = elig["land_owned_hectares"].get("max", 1000)
@@ -56,119 +62,136 @@ def match_scheme(user, scheme):
         if user["registered_with_board"] == elig["registered_with_board"]:
             score += 1
 
-    # Additional optional scoring
     for key in ["priority_groups", "joint_borrower_applicants", "credit_limit", "components", "implementation"]:
         if elig.get(key):
             score += 1
 
     return score
 
-# --- Chatbot ---
-user_data = {}
-print("Hello! I am SchemeBot. I can help you find government schemes.")
+print("\nHello! I am SchemeBot. I can help you find government schemes.")
 print("Type 'exit' anytime to quit.\n")
 
-while True:
-    user_input = input("You:\n").strip().lower()
-    
-    if user_input == "exit":
-        print("SchemeBot: Goodbye! Stay safe and good luck!")
-        break
+def get_input(prompt, cast_type=str, optional=False, default=None):
+    while True:
+        val = input(f"\nSchemeBot: {prompt}\nYou:\n").strip()
+        if val.lower() == "exit":
+            print("\nSchemeBot: Goodbye! Stay safe and good luck!\n")
+            sys.exit(0)
+        if optional and val == "":
+            return default
+        try:
+            return cast_type(val) if val else default
+        except ValueError:
+            print("SchemeBot: Invalid input, please try again.")
 
-    # Simple conversation responses
-    if any(greet in user_input for greet in ["hello", "hi", "hey"]):
-        print("SchemeBot: Hello! I can suggest government schemes for you. Let's start with your details.")
-        continue
-    if "how are you" in user_input:
-        print("SchemeBot: I'm just a bot, but I'm ready to help you find schemes!")
-        continue
-    if "thanks" in user_input or "thank you" in user_input:
-        print("SchemeBot: You're welcome! Do you want to check for schemes now?")
-        continue
+# --- Conversation before scheme mode ---
+def chat_mode():
+    print("\nSchemeBot: We can chat normally. Say 'schemes' whenever you want me to suggest government schemes.")
+    while True:
+        user_input = input("You:\n").strip().lower()
+        if user_input == "exit":
+            print("\nSchemeBot: Goodbye! Stay safe and good luck!\n")
+            sys.exit(0)
+        elif user_input == "schemes":
+            print("\nSchemeBot: Great! Let's start finding suitable government schemes for you.\n")
+            break
+        elif user_input in ["hi", "hello", "hey"]:
+            print("SchemeBot: Hello! How are you today?")
+        elif "how are you" in user_input:
+            print("SchemeBot: I'm just a bot, but I'm ready to chat or help you find schemes!")
+        elif user_input in ["thanks", "thank you"]:
+            print("SchemeBot: You're welcome! You can type 'schemes' anytime to check for government schemes.")
+        else:
+            print("SchemeBot: I see! You can keep chatting or type 'schemes' to get government schemes.")
 
-    # Ask for mandatory inputs if not already provided
-    if "category" not in user_data:
-        print("SchemeBot: Enter your category (Farmer / Construction Worker):")
-        user_data["category"] = input("You:\n").strip().lower()
-        continue
+# --- Scheme mode ---
+def scheme_mode(user_data):
+    while True:
+        # Ask user if they want to update any field or keep previous
+        print("\nSchemeBot: Let's enter your details. Press Enter to keep previous value (if any).")
 
-    if "occupation" not in user_data:
-        print("SchemeBot: Enter your occupation:")
-        user_data["occupation"] = input("You:\n").strip().lower()
-        continue
-
-    if "age" not in user_data:
-        while True:
-            try:
-                print("SchemeBot: Enter your age:")
-                user_data["age"] = int(input("You:\n").strip())
-                break
-            except ValueError:
-                print("Please enter a valid numeric age.")
-        continue
-
-    if "state" not in user_data:
-        print("SchemeBot: Enter your state of residence:")
-        user_data["state"] = input("You:\n").strip().lower()
-        continue
-
-    # Ask optional inputs
-    if "land_owned_hectares" not in user_data:
-        print("SchemeBot: Land owned in hectares (optional, leave blank if none):")
-        val = input("You:\n").strip()
-        user_data["land_owned_hectares"] = float(val) if val else None
-        continue
-
-    if "crop_type" not in user_data:
-        print("SchemeBot: Crops grown (comma separated, optional):")
-        val = input("You:\n").strip()
-        user_data["crop_type"] = [c.strip().lower() for c in val.split(",")] if val else None
-        continue
-
-    if "worked_days_last_year" not in user_data:
-        print("SchemeBot: Worked days last year (optional):")
-        val = input("You:\n").strip()
-        user_data["worked_days_last_year"] = int(val) if val else None
-        continue
-
-    if "registered_with_board" not in user_data:
-        print("SchemeBot: Registered with board? (yes/no, optional):")
-        val = input("You:\n").strip().lower()
-        if val == "yes":
-            user_data["registered_with_board"] = True
-        elif val == "no":
-            user_data["registered_with_board"] = False
+        user_data["category"] = get_input(
+            "Enter your category (Farmer / Construction Worker):",
+            str, optional=True, default=user_data.get("category")
+        )
+        user_data["occupation"] = get_input(
+            "Enter your occupation:",
+            str, optional=True, default=user_data.get("occupation")
+        )
+        user_data["age"] = get_input(
+            "Enter your age:",
+            int, optional=True, default=user_data.get("age")
+        )
+        user_data["state"] = get_input(
+            "Enter your state of residence:",
+            str, optional=True, default=user_data.get("state")
+        )
+        user_data["land_owned_hectares"] = get_input(
+            "Land owned in hectares (optional):",
+            float, optional=True, default=user_data.get("land_owned_hectares")
+        )
+        crop_input = get_input(
+            "Crops grown (comma separated, optional):",
+            str, optional=True,
+            default=",".join(user_data.get("crop_type", [])) if user_data.get("crop_type") else ""
+        )
+        user_data["crop_type"] = [c.strip().lower() for c in crop_input.split(",")] if crop_input else None
+        user_data["worked_days_last_year"] = get_input(
+            "Worked days last year (optional):",
+            int, optional=True, default=user_data.get("worked_days_last_year")
+        )
+        reg_board = get_input(
+            "Registered with board? (yes/no, optional):",
+            str, optional=True,
+            default=("yes" if user_data.get("registered_with_board") else "no") if "registered_with_board" in user_data else None
+        )
+        if reg_board:
+            if reg_board.lower() == "yes":
+                user_data["registered_with_board"] = True
+            elif reg_board.lower() == "no":
+                user_data["registered_with_board"] = False
+            else:
+                user_data["registered_with_board"] = None
         else:
             user_data["registered_with_board"] = None
-        continue
 
-    # Compute top matches
-    scored_schemes = [(scheme, match_scheme(user_data, scheme)) for scheme in schemes]
-    scored_schemes.sort(key=lambda x: x[1], reverse=True)
+        # Compute schemes
+        scored_schemes = [(scheme, match_scheme(user_data, scheme)) for scheme in schemes]
+        scored_schemes.sort(key=lambda x: x[1], reverse=True)
 
-    print("\nSchemeBot: Top recommended schemes for you:\n")
-    for scheme, score in scored_schemes[:5]:
-        print(f"{scheme['scheme_id']} - {scheme['name']} (Match score: {score})")
+        # Display top schemes
+        print("\nSchemeBot: Top recommended schemes for you:\n")
+        for scheme, score in scored_schemes[:5]:
+            print(f"{scheme['scheme_id']} - {scheme['name']} (Match score: {score})")
+            benefits = scheme.get("benefits", "N/A")
+            if isinstance(benefits, list):
+                benefits = "\n  - " + "\n  - ".join(benefits)
+            print(f"Benefits: {benefits}")
 
-        benefits = scheme.get("benefits", "N/A")
-        if isinstance(benefits, list):
-            benefits = "\n  - " + "\n  - ".join(benefits)
-        print(f"Benefits: {benefits}")
+            if "objectives" in scheme:
+                objectives = scheme["objectives"]
+                if isinstance(objectives, list):
+                    objectives = "\n  - " + "\n  - ".join(objectives)
+                print(f"Objectives: {objectives}")
 
-        if "objectives" in scheme:
-            objectives = scheme["objectives"]
-            if isinstance(objectives, list):
-                objectives = "\n  - " + "\n  - ".join(objectives)
-            print(f"Objectives: {objectives}")
+            if "implementation" in scheme:
+                print("Implementation Info:")
+                for k, v in scheme["implementation"].items():
+                    print(f"  {k}: {v}")
+            print("\n")
 
-        if "implementation" in scheme:
-            print("Implementation Info:")
-            for k, v in scheme["implementation"].items():
-                print(f"  {k}: {v}")
+        # Ask whether to continue or exit
+        while True:
+            cont = input("SchemeBot: Do you want to update info or exit? (type 'yes' to continue, 'exit' to quit)\nYou:\n").strip().lower()
+            if cont == "exit":
+                print("\nSchemeBot: Goodbye! Stay safe and good luck!\n")
+                sys.exit(0)
+            elif cont == "yes":
+                break  # Continue scheme loop
+            else:
+                print("SchemeBot: Please type 'yes' to continue or 'exit' to quit.")
 
-        print("\n")
-
-    # Clear optional fields to allow updated input next time
-    for key in ["land_owned_hectares", "crop_type", "worked_days_last_year", "registered_with_board"]:
-        if key in user_data:
-            del user_data[key]
+# --- Run bot ---
+user_data = {}
+chat_mode()         # first normal conversation
+scheme_mode(user_data)  # then scheme-finding
