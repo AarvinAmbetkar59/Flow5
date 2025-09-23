@@ -1,6 +1,6 @@
-# Scheme Eligibility Checker
+# SchemeMate
 
-This project is a Flask-based web application that helps users check which schemes they are eligible for.
+This project is a web application that helps farmers check which government schemes they are eligible for using an AI ChatBot.
 
 ---
 
@@ -14,7 +14,7 @@ This project is a Flask-based web application that helps users check which schem
 
 1. Open terminal in main folder
 
-2. Run the Flask App
+2. Run the Flask App (for the AI ChatBot)
    python app.py
    
 4. Start the local server
