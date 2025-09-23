@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchemeMate - Enter Your Details</title>
+    <link rel="stylesheet" href="css/manualDataStyles.css">
+</head>
+<body>
+    <div class="bg-grid"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="logo">SchemeMate</div>
+            <p class="subtitle">Enter your details to check scheme eligibility</p>
+        </div>
+        
+        <form class="form-container" id="eligibilityForm">
+            <div class="form-group">
+                <label for="occupation">Occupation <span class="required">*</span></label>
+                <select id="occupation" name="occupation" required>
+                    <option value="">Select your occupation</option>
+                    <option value="farmer">Farmer</option>
+                    <option value="construction_worker">Construction Worker</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age <span class="required">*</span></label>
+                <div class="number-input-container">
+                    <input type="number" id="age" name="age" min="18" max="100" value="" class="number-input" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="income">Annual Income (₹) <span class="required">*</span></label>
+                <input type="number" id="income" name="income" placeholder="Enter annual income" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="landOwned">Land Owned (Hectares) <span class="required">*</span></label>
+                <input type="number" id="landOwned" name="landOwned" placeholder="Enter land in hectares" min="0" step="0.1" required>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="state">State <span class="required">*</span></label>
+                <select id="state" name="state" required>
+                    <option value="">Select your state</option>
+                    <option value="andhra_pradesh">Andhra Pradesh</option>
+                    <option value="arunachal_pradesh">Arunachal Pradesh</option>
+                    <option value="assam">Assam</option>
+                    <option value="bihar">Bihar</option>
+                    <option value="chhattisgarh">Chhattisgarh</option>
+                    <option value="goa">Goa</option>
+                    <option value="gujarat">Gujarat</option>
+                    <option value="haryana">Haryana</option>
+                    <option value="himachal_pradesh">Himachal Pradesh</option>
+                    <option value="jharkhand">Jharkhand</option>
+                    <option value="karnataka">Karnataka</option>
+                    <option value="kerala">Kerala</option>
+                    <option value="madhya_pradesh">Madhya Pradesh</option>
+                    <option value="maharashtra">Maharashtra</option>
+                    <option value="manipur">Manipur</option>
+                    <option value="meghalaya">Meghalaya</option>
+                    <option value="mizoram">Mizoram</option>
+                    <option value="nagaland">Nagaland</option>
+                    <option value="odisha">Odisha</option>
+                    <option value="punjab">Punjab</option>
+                    <option value="rajasthan">Rajasthan</option>
+                    <option value="sikkim">Sikkim</option>
+                    <option value="tamil_nadu">Tamil Nadu</option>
+                    <option value="telangana">Telangana</option>
+                    <option value="tripura">Tripura</option>
+                    <option value="uttar_pradesh">Uttar Pradesh</option>
+                    <option value="uttarakhand">Uttarakhand</option>
+                    <option value="west_bengal">West Bengal</option>
+                    <option value="andaman_nicobar">Andaman and Nicobar Islands</option>
+                    <option value="chandigarh">Chandigarh</option>
+                    <option value="delhi">Delhi</option>
+                    <option value="jammu_kashmir">Jammu and Kashmir</option>
+                    <option value="ladakh">Ladakh</option>
+                    <option value="lakshadweep">Lakshadweep</option>
+                    <option value="puducherry">Puducherry</option>
+                </select>
+            </div>
+
+            <div class="form-group full-width">
+                <label>Category (Check all that apply)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sc" name="category" value="sc">
+                        <label for="sc">Scheduled Caste (SC)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="st" name="category" value="st">
+                        <label for="st">Scheduled Tribe (ST)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pwd" name="category" value="pwd">
+                        <label for="pwd">Person with Disability (PWD)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="obc" name="category" value="obc">
+                        <label for="obc">Other Backward Class (OBC)</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">🔍 Check My Eligibility</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('eligibilityForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const params = new URLSearchParams();
+            
+            // Add basic form data
+            params.append('occupation', formData.get('occupation'));
+            params.append('age', formData.get('age'));
+            params.append('income', formData.get('income'));
+            params.append('landOwned', formData.get('landOwned'));
+            params.append('state', formData.get('state'));
+            
+            // Handle multiple category checkboxes
+            const categories = formData.getAll('category');
+            categories.forEach(category => {
+                params.append('category', category);
+            });
+            
+            // Redirect to schemes page with parameters
+            window.location.href = 'schemes.html?' + params.toString();
+        });
+    </script>
+</body>
+</html>

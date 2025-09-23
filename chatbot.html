@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchemeHelp - AI Chatbot</title>
+    <link rel="stylesheet" href="css/chatbotStyles.css">
+</head>
+<body>
+    <div class="bg-grid"></div>
+    
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <div class="bot-icon">🤖</div>
+            <div class="chat-title">SchemeHelp</div>
+            <div class="chat-subtitle">AI Assistant for Government Schemes</div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input">
+            <div class="input-container">
+                <input 
+                    type="text" 
+                    class="message-input" 
+                    id="messageInput"
+                    placeholder="Ask me anything about schemes..."
+                    onkeypress="handleKeyPress(event)"
+                >
+                <button class="send-button" id="sendButton" onclick="sendMessage()">
+                    ➤
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="js/chatbotScript.js"></script>
+</body>
+</html>
