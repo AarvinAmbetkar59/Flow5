@@ -4,12 +4,13 @@ import json
 import random
 import re
 from openai import OpenAI
+import os
 
 app = Flask(__name__)
 CORS(app)
 
 # Initialize OpenAI client
-client = OpenAI(api_key="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")
+client = OpenAI("YOUR_API_KEY")
 
 # Load schemes dataset
 with open("schemefinderdataset.json", "r", encoding="utf-8") as f:
@@ -60,4 +61,5 @@ def chat():
     })
 
 if __name__ == "__main__":
+
     app.run(debug=True)
